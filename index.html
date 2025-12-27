@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>D3 + Scrollama (Two Visualisations)</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+</head>
+<body>
+    <main>
+        <div class="topnav">
+            <div class="book_idx" id="book_idx_1">Horus Rising</div>
+            <div class="book_idx" id="book_idx_2">Galaxy in Flames</div>
+        </div> 
+        <div class="container">
+            <div class="scrolly">
+                <div class="step" data-step="1">
+                    <h3>Step 1</h3>
+                    <p>This step shows a bar chart.</p>
+                </div>
+
+            <div class="step" data-step="2">
+                <h3>Step 2</h3>
+                <p>Now we introduce a network graph.</p>
+            </div>
+
+            <div class="step" data-step="3">
+                <h3>Step 3</h3>
+                <p>Highlight part of the network.</p>
+            </div>
+            </div>
+
+            <!-- Sticky graphic -->
+            <div class="graphic">
+            <svg id="bar"></svg>
+            <svg id="network"></svg>
+            </div>
+        </div>
+    </main>
+
+    <script src="source.js"></script>
+</body>
+</html>
