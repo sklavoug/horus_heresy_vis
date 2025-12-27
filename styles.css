@@ -1,37 +1,108 @@
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: 'Courier New';
+  background-color: black;
+  color: green;
+  background-image: linear-gradient(rgba(0, 255, 0, .05) .1em, transparent .1em), linear-gradient(90deg, rgba(0, 255, 0, .05) .1em, transparent .1em);
+  background-size: 3em 3em;
 }
 
 .container {
+  text-align: center;
+  align-items: center;
+}
+
+h1, h2 {
+  text-align: center;
+  color: rgb(7,255,6);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(9, 63, 33, 0.7);
+  animation: flicker 0.7s infinite alternate;
+  padding: 20px;
+}
+
+p {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(9, 63, 33, 0.7);
+  animation: flicker 0.7s infinite alternate;
+  color: rgb(7,255,6);
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Flickering animation for a CRT effect */
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  25% { opacity: 0.9; }
+  50% { opacity: 0.85; }
+  75% { opacity: 0.8; }
+  100% { opacity: 0.95; }
+}
+
+.scrolly_container_left {
   display: flex;
+  position: sticky;
+}
+
+.scrolly_container_centre {
+  display: flex;
+  position: sticky;
+  align-items: center;
+  justify-content: center;
+  vertical-align: center;
+  gap: 5px;
+  padding: 5px;
+}
+
+#graph_container {
+  position: sticky;
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  transition: all 1s ease;
+}
+
+#bar_chart_container {
+  position: sticky;
+  width: 65%;
+  height: 100vh;
+  transition: all 1s ease;
+  z-index: 10;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /* Scrolling text */
-.scrolly {
+.scrolly_left {
   width: 35%;
+  padding: 40px;
+}
+
+.scrolly_centre {
+  width: 100%;
   padding: 40px;
 }
 
 .step {
   margin-bottom: 80vh;
   padding: 20px;
-  background: #f2f2f2;
-  border-left: 5px solid #999;
+  outline-color: green;
 }
 
 .step.is-active {
-  background: #e6f2ff;
   border-left-color: steelblue;
 }
 
 /* Graphic area */
 .graphic {
   position: sticky;
-  top: 50px;
+  top: 47px;
   width: 65%;
   height: 100vh;
-  background: white;
 }
 
 .graphic svg {
@@ -50,22 +121,23 @@ body {
 /* Nav */
 /* Add a black background color to the top navigation */
 .topnav {
-    position: sticky;
-    top: 0;
-    background-color: #333;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: center;
-    gap: 5px;
-    padding: 5px;
+  position: sticky;
+  top: 0;
+  background-color: #333;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: center;
+  gap: 5px;
+  padding: 5px;
+  z-index: 100;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color: #f2f2f2;
+  color: transparent;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -76,6 +148,7 @@ body {
 .topnav a:hover {
   background-color: #ddd;
   color: black;
+  cursor: pointer;
 }
 
 /* Add a color to the active/current link */
@@ -84,30 +157,47 @@ body {
   color: white;
 }
 
+/* TODO: 
+- Add some kind of fracture pattern for the anthology books
+- Colour based on predominant legion?
+- Roman numerals on the books themselves.
+- Transitions and proper styling for the nav bar.
+*/
+
 .topnav .book_idx {
-    height: 40px;
-    width: 10px;
-    background-color: grey;
-    border: 1px solid white;
-    color: transparent;
-    text-align: center;
-    background-clip: content-box;
-    line-height: 40px;
-    transition: all 0.3s ease;
-    font-size: 12px;
-    white-space: normal;
-    overflow: hidden;
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: 40px;
+  width: 10px;
+  background-color: grey;
+  border: 1px solid white;
+  color: transparent;
+  text-align: center;
+  background-clip: content-box;
+  line-height: 40px;
+  transition: all 0.3s ease;
+  white-space: normal;
+  overflow: hidden;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.topnav #book_idx_1:hover {
+  width: 80px;
+}
+
+.topnav #book_idx_2:hover {
+  width: 70px;
+}
+
+.topnav #book_idx_3:hover {
+  width: 140px;
 }
 
 .topnav .book_idx:hover {
-    width: auto;
-    height: 40px;
-    background-color: blue;
-    color: white;
-    font-weight: bold;
-    line-height: 1.5;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  line-height: 1.5;
 }

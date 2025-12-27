@@ -54,7 +54,7 @@ d3.json("data/lines.json").then(data => {
   const links = data.edges;
 
   const simulation = d3.forceSimulation(nodes)
-    .force("link", d3.forceLink(links).id(d => d.id).distance(80))
+    .force("link", d3.forceLink(links).id(d => d.id).distance(40))
     .force("charge", d3.forceManyBody().strength(-200))
     .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -71,13 +71,14 @@ d3.json("data/lines.json").then(data => {
     .attr("r", 10)
     .attr("fill", d => colours[d.affiliation] || colours.default);
 
-  const label = svg.append("g")
+  const label = netSvg.append("g")
     .selectAll("text")
     .data(nodes)
     .enter()
     .append("text")
     .text(d => d.id)
     .attr("font-size", "10px")
+    .style("fill", "white")
     .attr("dx", 10)
     .attr("dy", 4);
 
@@ -91,6 +92,10 @@ d3.json("data/lines.json").then(data => {
     node
       .attr("cx", d => d.x)
       .attr("cy", d => d.y);
+
+    label
+      .attr("x", d => d.x)
+      .attr("y", d => d.y)
 })});
 
 /* ---------------------------------------------------
@@ -105,9 +110,17 @@ function handleStepEnter(response) {
   d3.selectAll(".step").classed("is-active", false);
   d3.select(response.element).classed("is-active", true);
 
+  if (step === "0") {
+    /* Change colour of current book, as well as reverting colour for previous/next books (in case we're scrolling either way) */
+    document.getElementById('book_idx_1').style.backgroundColor = 'grey';
+  }
+
   if (step === "1") {
     d3.select("#bar").transition().style("opacity", 1);
     d3.select("#network").transition().style("opacity", 0);
+    
+    document.getElementById('graph_container').style.top = '0';
+    document.getElementById('book_idx_1').style.backgroundColor = 'red';
   }
 
   if (step === "2" || step === "3") {
@@ -115,6 +128,7 @@ function handleStepEnter(response) {
     d3.select("#network").transition().style("opacity", 1);
 
     simulation.alpha(1).restart();
+    document.getElementById('book_idx_1').style.backgroundColor = 'grey';
   }
 
   if (step === "3") {
@@ -127,8 +141,12 @@ function handleStepEnter(response) {
 scroller
   .setup({
     step: ".step",
-    offset: 0.5
+    offset: 0.5,
+    debug: false
   })
   .onStepEnter(handleStepEnter);
 
-window.addEventListener("resize", scroller.resize);
+window.addEventListener("resize", scroller.resize)
+window.addEventListener("load", function() {
+  setupScrollama()
+});
