@@ -38,18 +38,20 @@ barSvg.selectAll("rect")
 
 const netSvg = d3.select("#network");
 
-const nodes = [
-  { id: 1, group: "A" },
-  { id: 2, group: "A" },
-  { id: 3, group: "B" },
-  { id: 4, group: "B" }
-];
+// const nodes = [
+//   { id: 1, group: "A" },
+//   { id: 2, group: "A" },
+//   { id: 3, group: "B" },
+//   { id: 4, group: "B" }
+// ];
 
-const links = [
-  { source: 1, target: 2 },
-  { source: 2, target: 3 },
-  { source: 3, target: 4 }
-];
+// const links = [
+//   { source: 1, target: 2 },
+//   { source: 2, target: 3 },
+//   { source: 3, target: 4 }
+// ];
+
+d3.json("data/lines.json").then(data => {
 
 const simulation = d3.forceSimulation(nodes)
   .force("link", d3.forceLink(links).id(d => d.id).distance(80))
@@ -79,7 +81,7 @@ simulation.on("tick", () => {
   node
     .attr("cx", d => d.x)
     .attr("cy", d => d.y);
-});
+})});
 
 /* ---------------------------------------------------
    SCROLLAMA
