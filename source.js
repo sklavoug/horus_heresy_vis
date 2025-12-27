@@ -52,6 +52,8 @@ const netSvg = d3.select("#network");
 // ];
 
 d3.json("data/lines.json").then(data => {
+  const nodes = data.nodes;
+  const links = data.edges;
 
 const simulation = d3.forceSimulation(nodes)
   .force("link", d3.forceLink(links).id(d => d.id).distance(80))
