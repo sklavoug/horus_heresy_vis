@@ -38,51 +38,59 @@ barSvg.selectAll("rect")
 
 const netSvg = d3.select("#network");
 
-// const nodes = [
-//   { id: 1, group: "A" },
-//   { id: 2, group: "A" },
-//   { id: 3, group: "B" },
-//   { id: 4, group: "B" }
-// ];
-
-// const links = [
-//   { source: 1, target: 2 },
-//   { source: 2, target: 3 },
-//   { source: 3, target: 4 }
-// ];
+const colours = {'Sons of Horus': 'rgb(0,83,98)',
+               'Mechanicum': 'rgb(139,26,15)',
+               'Imperium': 'rgb(160,161,151)',
+               'Imperial Army': 'rgb(160,161,151)',
+               'Imperial Navy': 'rgb(160,161,151)',
+               'Iterator': 'rgb(160,161,151)',
+               'Remembrancer': 'rgb(160,161,151)',
+               'Emperors Children': 'rgb(128,0,128)',
+               'Imperial Fists': 'rgb(230,171,0)',
+               'Chaos': 'rgb(255,0,0)'};
 
 d3.json("data/lines.json").then(data => {
   const nodes = data.nodes;
   const links = data.edges;
 
-const simulation = d3.forceSimulation(nodes)
-  .force("link", d3.forceLink(links).id(d => d.id).distance(80))
-  .force("charge", d3.forceManyBody().strength(-200))
-  .force("center", d3.forceCenter(width / 2, height / 2));
+  const simulation = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id(d => d.id).distance(80))
+    .force("charge", d3.forceManyBody().strength(-200))
+    .force("center", d3.forceCenter(width / 2, height / 2));
 
-const link = netSvg.append("g")
-  .attr("stroke", "#aaa")
-  .selectAll("line")
-  .data(links)
-  .join("line");
+  const link = netSvg.append("g")
+    .attr("stroke", "#aaa")
+    .selectAll("line")
+    .data(links)
+    .join("line");
 
-const node = netSvg.append("g")
-  .selectAll("circle")
-  .data(nodes)
-  .join("circle")
-  .attr("r", 10)
-  .attr("fill", "orange");
+  const node = netSvg.append("g")
+    .selectAll("circle")
+    .data(nodes)
+    .join("circle")
+    .attr("r", 10)
+    .attr("fill", d => colours[d.affiliation] || colours.default);
 
-simulation.on("tick", () => {
-  link
-    .attr("x1", d => d.source.x)
-    .attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x)
-    .attr("y2", d => d.target.y);
+  const label = svg.append("g")
+    .selectAll("text")
+    .data(nodes)
+    .enter()
+    .append("text")
+    .text(d => d.id)
+    .attr("font-size", "10px")
+    .attr("dx", 10)
+    .attr("dy", 4);
 
-  node
-    .attr("cx", d => d.x)
-    .attr("cy", d => d.y);
+  simulation.on("tick", () => {
+    link
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+
+    node
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y);
 })});
 
 /* ---------------------------------------------------
